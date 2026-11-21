@@ -1,0 +1,1 @@
+export function formatDistanceToNow(date: string) { const ms=Date.now()-new Date(date).getTime(); const hours=Math.max(0,Math.floor(ms/3600000)); if(hours<1)return 'hace unos minutos'; if(hours<24)return `hace ${hours} h`; const days=Math.floor(hours/24);return `hace ${days} día${days===1?'':'s'}`; }
