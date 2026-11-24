@@ -1,4 +1,16 @@
 import { ExternalLink, MapPin } from 'lucide-react';
 import { Modal } from '../../components/ui/Modal';
-const points=['Prefectura · ventanilla de recepción y entrega','Edificios 1 al 9','Biblioteca','Polideportivo','CIDET','Aulas, laboratorios y áreas comunes'];
-export function MapModal({ onClose }: { onClose: () => void }) { return <Modal title="Mapa de FIME" onClose={onClose} wide><div className="map-points">{points.map(point=><span key={point}><MapPin size={14}/>{point}</span>)}</div><div className="map-frame"><iframe src="https://www.fime.uanl.mx/mapa-de-la-fime/" title="Mapa oficial de FIME UANL" loading="lazy" referrerPolicy="no-referrer-when-downgrade"/><div className="map-backup"><MapPin size={16}/> Si el mapa no carga aquí, ábrelo en una pestaña nueva.<a className="button button-outline" href="https://www.fime.uanl.mx/mapa-de-la-fime/" target="_blank" rel="noreferrer">Abrir mapa completo <ExternalLink size={14}/></a></div></div></Modal>; }
+
+const MAP_URL = 'https://www.fime.uanl.mx/mapa-de-la-fime/';
+
+export function MapModal({ onClose }: { onClose: () => void }) {
+  return <Modal title="Mapa de FIME" onClose={onClose}>
+    <div className="map-link-card">
+      <span className="map-link-icon"><MapPin size={22}/></span>
+      <p>El mapa oficial se consulta directamente en el sitio de FIME.</p>
+      <a className="button button-primary button-full" href={MAP_URL} target="_blank" rel="noreferrer">
+        Abrir mapa de FIME <ExternalLink size={15}/>
+      </a>
+    </div>
+  </Modal>;
+}

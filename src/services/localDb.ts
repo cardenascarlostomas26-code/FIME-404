@@ -51,7 +51,7 @@ export const localDb = {
     if (binding) { binding.ip = ip ?? binding.ip; } else db.deviceBindings.push({ studentId: user.studentId, deviceId, ...(ip ? { ip } : {}) });
     write(db); return null;
   },
-  addItem(input: Pick<Item, 'title' | 'description' | 'location' | 'category' | 'image'>, user: UserSession) {
+  addItem(input: Pick<Item, 'title' | 'description' | 'location' | 'category' | 'image' | 'images'>, user: UserSession) {
     const db = read(); const createdAt = new Date();
     const item: Item = { ...input, id: crypto.randomUUID(), status: 'pending', reporterId: user.studentId, reporterName: user.name, createdAt: createdAt.toISOString(), expiresAt: new Date(createdAt.getTime() + 3 * 3600000).toISOString(), receiveCode: newCode(db.items.map(x => x.receiveCode ?? '')), qrToken: `FIME404:${crypto.randomUUID()}`, comments: [] };
     db.items.unshift(item); write(db); return item;

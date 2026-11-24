@@ -63,12 +63,6 @@ export default function App() {
 
   const claim = (item: Item) => { if (!user) { setPendingClaim(item); setLogin(true); return; } const created = localDb.claim(item.id, user); if (created) { setTicket(created); setTicketTitle(item.title); } refresh(); };
   const loginUser = async (next: UserSession): Promise<string | null> => {
-    let deviceId = localStorage.getItem('encontrapp-device-id');
-    if (!deviceId) { deviceId = crypto.randomUUID(); localStorage.setItem('encontrapp-device-id', deviceId); }
-    let ip: string | undefined;
-    try { const controller = new AbortController(); const timeout = window.setTimeout(() => controller.abort(), 2500); const response = await fetch('https://api.ipify.org?format=json', { signal: controller.signal }); window.clearTimeout(timeout); if (response.ok) { const data = await response.json() as { ip?: string }; ip = data.ip; } } catch { /* Device ID remains the local fallback when IP lookup is unavailable. */ }
-    const problem = localDb.registerIdentity(next, deviceId, ip);
-    if (problem) return problem;
     localStorage.setItem('encontrapp-user', JSON.stringify(next)); setUser(next);
     if (pendingClaim) { const created = localDb.claim(pendingClaim.id, next); if (created) { setTicket(created); setTicketTitle(pendingClaim.title); } setPendingClaim(null); refresh(); }
     return null;
